@@ -1,6 +1,7 @@
 ;;; # box-me.scm
 ;;;
-;;; by Karol Marcjan <karol.marcjan@gmail.com>
+;;; by [Karol Marcjan](http://github.org/szabba/)
+;;; (<karol.marcjan@gmail.com>)
 ;;;
 ;;; [Fork me on github!](http://github.org/szabba/book-me)
 ;;;
@@ -13,8 +14,9 @@
 ;;; prefixed with the comment marker as Markdown it will produce a
 ;;; Markdonw document with the text interweaved with the code.
 ;;;
-;;; In the spirit of `pbook.el`, created by Luke Gorrie, it can be run
-;;; on itself. Neat, huh?
+;;; In the spirit of `pbook.el`, created by [Luke
+;;; Gorrie](http://github.org/lukego), it can be run on itself. Neat,
+;;; huh?
 ;;;
 ;;; # Imports
 ;;;
