@@ -1,4 +1,4 @@
-;;; # Introduction
+;;; # box-me.scm
 ;;;
 ;;; by Karol Marcjan <karol.marcjan@gmail.com>
 ;;;
