@@ -178,6 +178,68 @@
                  ("-o" . ,(current-output-port))
                  ("-m" . ";;;")))
 
+;;; We need to parse the command line some way. `build-option-parser`
+;;; takes the default options and a list of option handlers and produces
+;;; a procedure that will parse the arguments specified at the command
+;;; line.
+;;;
+;;; While I use association lists to represent the options, anything
+;;; would work really -- as long as the option handlers specified would
+;;; know how to deal with it.
+
+(define (build-option-parser default-options option-handlers)
+  (lambda (arguments)
+
+;;; We loop over the argument list, succesively trying out all the
+;;; option handlers.
+;;;
+;;; Awe at Scheme's expressiveness -- in C, Python or whatever, we'd
+;;; have to make two nested loops. Not in Scheme land though.
+
+    (let loop ((current-handler (car option-handlers))
+               (other-handlers (cdr option-handlers))
+               (options default-options)
+               (arguments arguments))
+
+;;; When the argument list is empty we're done.
+
+      (cond ((null? arguments)
+
+             options)
+
+;;; Each option handler is a procedure. When the argument list begins
+;;; with something the handler is interested in -- it consumes it and
+;;; conses the new options with the arguments it doesn't care about.
+;;; Otherwise it returns `#f`.
+
+            ((current-handler options arguments)
+             =>
+             (lambda (opts-and-args)
+               (let ((options (car opts-and-args))
+                     (arguments (cdr opts-and-args)))
+
+                 (loop (car option-handlers)
+                       (cdr option-handlers)
+                       options
+                       arguments))))
+
+;;; Something is clearly wrong if the argument list is not empty and
+;;; none of the handlers shows interest it's content.
+
+            ((null? other-handlers)
+
+             (error "Cannot parse rest of argument list!"
+                    arguments
+                    options))
+
+;;; We still have handlers to try? Great, lest try another one!
+
+            (else
+             (loop (car other-handlers)
+                   (cdr other-handlers)
+                   options
+                   arguments))))))
+
 ;;; # Program body
 ;;;
 ;;; Temporarily hard-coded call to inside-out. The "`;;;`" comment mark
