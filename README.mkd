@@ -1,4 +1,4 @@
-# box-me.scm
+# book-me.scm
 
 by [Karol Marcjan](http://github.org/szabba/)
 (<karol.marcjan@gmail.com>)
@@ -12,7 +12,7 @@ empty lines.
 
 The overall effect is, that if you format stuff in the lines
 prefixed with the comment marker as Markdown it will produce a
-Markdonw document with the text interweaved with the code.
+Markdown document with the text interwoven with the code.
 
 In the spirit of `pbook.el`, created by [Luke
 Gorrie](http://github.org/lukego), it can be run on itself. Neat,
@@ -30,21 +30,21 @@ with the one present in R6RS.
             (scheme process-context))
     
 * `(scheme base)` is a library that corresponds to what one would
-call builtins in other languages.
+call built-ins in other languages.
 * `(scheme write)` contains the *O* of the I/O.
 * `(scheme file)` gives us the `with-input-from-file` and
 `with-output-to-file` procedures. Those can come in handy.
-* `(scheme process-context)`, amongst other things, gives us acces
+* `(scheme process-context)`, amongst other things, gives us access
 to the command line arguments through the `command-line` procedure.
 
 # Helpers and utilities
 
-A more descriptive name for the emtpy string. The intent is
+A more descriptive name for the empty string. The intent is
 expressed better when using it.
 
     (define empty-line "")
     
-As above, only we name the indent that precedes code in markdown.
+As above, only we name the indent that precedes code in Markdown.
 
     (define code-indent "    ")
     
@@ -109,7 +109,7 @@ Since we have to do *something*, we write out the empty line.
     
                (write-string empty-line))
     
-A literal empty line is outputed as-is and "inherits" the text-line
+A literal empty line is outputted as-is and "inherits" the text-line
 status from it's predecessor.
 
               ((string=? line empty-line)
