@@ -46,25 +46,32 @@
 
 (define code-indent "    ")
 
-;;; Strips the prefix (and a following space) from a string.
+;;; Strips the prefix (and a following space) from a text line or
+;;; returns false.
 
-(define (strip-prefix str prefix)
+(define (strip-text-prefix line prefix)
 
   (let ((prefix-length (string-length prefix))
-        (str-length (string-length str)))
+        (line-length (string-length line)))
 
-    (if (< str-length prefix-length)
+;;; For lines that do not start with the prefix, return false.
+
+    (if (< line-length prefix-length)
       #f
-      (let ((beginning (substring str 0 prefix-length))
-            (rest (substring str prefix-length str-length))
-            (rest-length (- str-length
+      (let ((beginning (substring line 0 prefix-length))
+            (rest (substring line prefix-length line-length))
+            (rest-length (- line-length
                             prefix-length)))
 
         (cond ((not (string=? prefix beginning))
                #f)
 
-              ((= (- str-length prefix-length) 0)
+;;; When the string is just the prefix, return an empty string.
+
+              ((= (- line-length prefix-length) 0)
                empty-line)
+
+;;;
 
               ((char=? (string-ref rest 0) #\space)
 
@@ -109,7 +116,7 @@
 
 ;;; A text line is handled by a helper procedure.
 
-          ((strip-prefix line comment-mark)
+          ((strip-text-prefix line comment-mark)
            =>
            (lambda (stripped)
 
