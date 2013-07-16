@@ -73,12 +73,18 @@ When the string is just the prefix, return an empty string.
                   ((= (- line-length prefix-length) 0)
                    empty-line)
     
-
+When the rest of the string starts with a space, return the part
+that follows it.
 
                   ((char=? (string-ref rest 0) #\space)
     
                      (substring rest 1 rest-length)))))))
     
+Note that in any other case, the return value is unspecified.
+Therefore
+
+    ;;;this would be transformed into source code and not text.
+
 # Turning stuff inside-out
 
 This is where the fun happens!
