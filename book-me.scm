@@ -170,6 +170,14 @@
 
            (loop (read-line) #f)))))
 
+;;; # Command line parsing
+;;;
+;;; Specify default option values for the program.
+
+(define config `(("-i" . ,(current-input-port))
+                 ("-o" . ,(current-output-port))
+                 ("-m" . ";;;")))
+
 ;;; # Program body
 ;;;
 ;;; Temporarily hard-coded call to inside-out. The "`;;;`" comment mark
