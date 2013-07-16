@@ -240,6 +240,42 @@
                    options
                    arguments))))))
 
+;;; ## Comparing option names
+;;;
+;;; We want to specify option names as symbols. The command line
+;;; arguments are specified as strings. So we need a way to compare
+;;; strings and symbols specifying option names.
+
+(define (option-name=? a b)
+
+;;; An option name is either
+
+  (define (option-name->string option-name)
+
+;;; a string,
+
+    (cond ((string? option-name)
+           option-name)
+
+;;; a symbol
+
+          ((symbol? option-name)
+           (symbol->string option-name))
+
+;;; or not an option name.
+
+          (else
+           (error "An option name can be either a symbol or a string!"
+                  option-name))))
+
+;;; Once you convert both option names to strings it's obvious that the
+;;; origianls are "equal" if the strings are equal.
+
+  (let ((a (option-name->string a))
+        (b (option-name->string b)))
+
+    (string=? a b)))
+
 ;;; # Program body
 ;;;
 ;;; Temporarily hard-coded call to inside-out. The "`;;;`" comment mark
