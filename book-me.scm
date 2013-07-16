@@ -1,9 +1,6 @@
-;;; # book-me.scm
-;;;
-;;; by [Karol Marcjan](http://github.org/szabba/)
-;;; (<karol.marcjan@gmail.com>)
-;;;
-;;; [Fork me on github!](http://github.org/szabba/book-me)
+;;; % book-me.scm
+;;; % by [Karol Marcjan](http://github.org/szabba/) (<karol.marcjan@gmail.com>)
+;;; % [Fork me on github!](http://github.org/szabba/book-me)
 ;;;
 ;;; `book-me.scm` is an R7RS Scheme script that formats source code for
 ;;; printing. It strips a so-called comment marker from lines that start
