@@ -80,6 +80,12 @@
 ;;; # Turning stuff inside-out
 ;;;
 ;;; This is where the fun happens!
+;;;
+;;; `inside-out` loops over the lines in the current input port and
+;;; writes the transformed document to the current output port.
+;;;
+;;; The purpose and nature of the transformation are sketched in the
+;;; introductory section.
 
 (define (inside-out comment-mark)
 
