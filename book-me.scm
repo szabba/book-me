@@ -234,43 +234,8 @@
                    options
                    arguments))))))
 
-;;; ## Comparing option names
-;;;
-;;; We want to specify option names as symbols. The command line
-;;; arguments are specified as strings. So we need a way to compare
-;;; strings and symbols specifying option names.
 
-(define (option-name=? a b)
-
-;;; An option name is either
-
-  (define (option-name->string option-name)
-
-;;; a string,
-
-    (cond ((string? option-name)
-           option-name)
-
-;;; a symbol
-
-          ((symbol? option-name)
-           (symbol->string option-name))
-
-;;; or not an option name.
-
-          (else
-           (error "An option name can be either a symbol or a string!"
-                  option-name))))
-
-;;; Once you convert both option names to strings it's obvious that the
-;;; origianls are "equal" if the strings are equal.
-
-  (let ((a (option-name->string a))
-        (b (option-name->string b)))
-
-    (string=? a b)))
-
-;;; ## Nice option handlers
+;;; # Nice option handlers
 ;;;
 ;;; The option handler interface is somewhat unwieldy. Since all option
 ;;; handlers are going to do similiar stuff we're gonna abstract some of
@@ -295,7 +260,7 @@
 
       (cond ((member (car arguments)
                      option-names
-                     option-name=?)
+                     string=?)
 
              (let ((value-and-args (handler-proc (cdr arguments))))
 
@@ -320,9 +285,9 @@
 ;;; output ports (and default to the standard input and output). The
 ;;; third one sets the comment mark to be used.
 
-(define config `((--input . ,(current-input-port))
-                 (--output . ,(current-output-port))
-                 (--comment-mark . ";;;")))
+(define config `(("--input" . ,(current-input-port))
+                 ("--output" . ,(current-output-port))
+                 ("--comment-mark" . ";;;")))
 
 ;;; All of our options take exactly one argument, so we make another
 ;;; helper procedure so we won't need to repeat ourselves. It takes a
@@ -349,17 +314,17 @@
 ;;; Two options open files for us.
 
     (list (make-option-handler
-            '(--input --from -i -f)
+            '("--input" "--from" "-i" "-f")
             (take-one-argument open-input-file))
 
           (make-option-handler
-            '(--output --to -o -t)
+            '("--output" "--to" "-o" "-t")
             (take-one-argument open-output-file))
 
 ;;; One just gives us a string.
 
           (make-option-handler
-            '(--comment-mark -m)
+            '("--comment-mark" "-m")
             (take-one-argument (lambda (x) x))))))
 
 ;;; # Program body
