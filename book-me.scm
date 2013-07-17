@@ -324,6 +324,24 @@
                  (--output . ,(current-output-port))
                  (--comment-mark . ";;;")))
 
+;;; All of our options take exactly one argument, so we make another
+;;; helper procedure so we won't need to repeat ourselves. It takes a
+;;; procedure and returns a handler procedure that applies the first one
+;;; to the first argument and conses it with the rest.
+;;;
+;;; But first we check that we've got enough arguments to consume!
+
+(define (take-one-argument proc)
+  (lambda (arguments)
+
+    (when (null? arguments)
+      (error "The argument list is too short!"))
+
+    (cons (proc (car arguments))
+          (cdr arguments))))
+
+;;; Finally, we build our option parser.
+
 ;;; # Program body
 ;;;
 ;;; Temporarily hard-coded call to inside-out. The "`;;;`" comment mark
