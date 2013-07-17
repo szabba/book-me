@@ -170,14 +170,8 @@
 
            (loop (read-line) #f)))))
 
-;;; # Command line parsing
+;;; # Command line parsing machinery
 ;;;
-;;; Specify default option values for the program.
-
-(define config `(("-i" . ,(current-input-port))
-                 ("-o" . ,(current-output-port))
-                 ("-m" . ";;;")))
-
 ;;; We need to parse the command line some way. `build-option-parser`
 ;;; takes the default options and a list of option handlers and produces
 ;;; a procedure that will parse the arguments specified at the command
@@ -319,6 +313,16 @@
 ;;; returns false, just as `build-option-parser` expects.
 
             (else #f)))))
+
+;;; # Our options
+;;;
+;;; We only have three options -- two of which specify the input and
+;;; output ports (and default to the standard input and output). The
+;;; third one sets the comment mark to be used.
+
+(define config `((--input . ,(current-input-port))
+                 (--output . ,(current-output-port))
+                 (--comment-mark . ";;;")))
 
 ;;; # Program body
 ;;;
