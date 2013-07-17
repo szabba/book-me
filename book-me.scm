@@ -184,7 +184,7 @@
 (define (build-option-parser default-options option-handlers)
   (lambda (arguments)
 
-;;; We loop over the argument list, succesively trying out all the
+;;; We loop over the argument list, successively trying out all the
 ;;; option handlers.
 ;;;
 ;;; Awe at Scheme's expressiveness -- in C, Python or whatever, we'd
@@ -238,7 +238,7 @@
 ;;; # Nice option handlers
 ;;;
 ;;; The option handler interface is somewhat unwieldy. Since all option
-;;; handlers are going to do similiar stuff we're gonna abstract some of
+;;; handlers are going to do similar stuff we're gonna abstract some of
 ;;; it away.
 
 (define (make-option-handler option-names handler-proc)
@@ -248,9 +248,9 @@
   (when (null? option-names)
     (error "At least one option name must be specified!"))
 
-;;; The first name specified is "cannonical" and gets special treatment.
+;;; The first name specified is "canonical" and gets special treatment.
 
-  (let ((cannonical-name (car option-names)))
+  (let ((canonical-name (car option-names)))
 
     (lambda (options arguments)
 
@@ -269,7 +269,7 @@
                (let ((value (car value-and-args))
                      (arguments (cdr value-and-args)))
 
-                 (cons (cons (cons cannonical-name
+                 (cons (cons (cons canonical-name
                                    value)
                              options)
                        arguments))))
