@@ -71,7 +71,7 @@
 ;;; For lines that do not start with the prefix, return false.
 
     (if (< line-length prefix-length)
-      #f
+        #f
       (let ((beginning (substring line 0 prefix-length))
             (rest (substring line prefix-length line-length))
             (rest-length (- line-length
@@ -90,7 +90,7 @@
 
               ((char=? (string-ref rest 0) #\space)
 
-                 (substring rest 1 rest-length))
+               (substring rest 1 rest-length))
 
 ;;; Otherwise consider the line to be code after all...
 
@@ -213,9 +213,9 @@
                      (arguments (cdr opts-and-args)))
 
                  (loop (car option-handlers)
-                       (cdr option-handlers)
-                       options
-                       arguments))))
+                   (cdr option-handlers)
+                   options
+                   arguments))))
 
 ;;; Something is clearly wrong if the argument list is not empty and
 ;;; none of the handlers shows interest it's content.
@@ -230,9 +230,9 @@
 
             (else
              (loop (car other-handlers)
-                   (cdr other-handlers)
-                   options
-                   arguments))))))
+               (cdr other-handlers)
+               options
+               arguments))))))
 
 
 ;;; # Nice option handlers
@@ -309,23 +309,23 @@
 
 (define parse-options
   (build-option-parser
-    config
+   config
 
 ;;; Two options open files for us.
 
-    (list (make-option-handler
-            '("--input" "--from" "-i" "-f")
-            (take-one-argument open-input-file))
+   (list (make-option-handler
+          '("--input" "--from" "-i" "-f")
+          (take-one-argument open-input-file))
 
-          (make-option-handler
-            '("--output" "--to" "-o" "-t")
-            (take-one-argument open-output-file))
+         (make-option-handler
+          '("--output" "--to" "-o" "-t")
+          (take-one-argument open-output-file))
 
 ;;; One just gives us a string.
 
-          (make-option-handler
-            '("--comment-mark" "-m")
-            (take-one-argument (lambda (x) x))))))
+         (make-option-handler
+          '("--comment-mark" "-m")
+          (take-one-argument (lambda (x) x))))))
 
 ;;; # Program body
 ;;;
