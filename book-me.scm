@@ -329,10 +329,31 @@
 
 ;;; # Program body
 ;;;
-;;; Temporarily hard-coded call to inside-out. The "`;;;`" comment mark
-;;; is intended for Scheme and other LISP dialects.
+;;; We get the command line and parse it. Per R7RS the first element of
+;;; `(command-line)` is the command name and is implementation specific.
+;;; We don't care about it so we take the rest of the list.
 
-(inside-out ";;;")
+(let ((options (parse-options (cdr (command-line)))))
+
+;;; Bind the option values to handy names.
+
+  (let ((input (cdr (assoc "--input" options)))
+        (output (cdr (assoc "--output" options)))
+        (mark (cdr (assoc "--comment-mark" options))))
+
+;;; Dynamically bind the current input and output ports as inside-out
+;;; operates on them.
+
+    (parameterize ((current-input-port input)
+                   (current-output-port output))
+
+      (inside-out mark))
+
+;;; Close the ports. Not really necessary here, but it's a good habit to
+;;; do so.
+
+    (close-port input)
+    (close-port output)))
 
 ;;; # Generating PDFs
 ;;;
