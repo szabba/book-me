@@ -44,8 +44,8 @@
 ;;; * `(scheme base)` is a library that corresponds to what one would
 ;;; call built-ins in other languages.
 ;;; * `(scheme write)` contains the *O* of the I/O.
-;;; * `(scheme file)` gives us the `with-input-from-file` and
-;;; `with-output-to-file` procedures. Those can come in handy.
+;;; * `(scheme file)` gives us the `open-input-file` and
+;;; `open-output-file` procedures. Those can come in handy.
 ;;; * `(scheme process-context)`, amongst other things, gives us access
 ;;; to the command line arguments through the `command-line` procedure.
 ;;;
@@ -341,6 +341,26 @@
           (cdr arguments))))
 
 ;;; Finally, we build our option parser.
+
+(define parse-options
+  (build-option-parser
+    config
+
+;;; Two options open files for us.
+
+    (list (make-option-handler
+            '(--input --from -i -f)
+            (take-one-argument open-input-file))
+
+          (make-option-handler
+            '(--output --to -o -t)
+            (take-one-argument open-output-file))
+
+;;; One just gives us a string.
+
+          (make-option-handler
+            '(--comment-mark -m)
+            (take-one-argument (lambda (x) x))))))
 
 ;;; # Program body
 ;;;
