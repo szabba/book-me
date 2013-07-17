@@ -90,12 +90,21 @@
 
               ((char=? (string-ref rest 0) #\space)
 
-                 (substring rest 1 rest-length)))))))
+                 (substring rest 1 rest-length))
 
-;;; Note that in any other case, the return value is unspecified.
-;;; Therefore
+;;; Otherwise consider the line to be code after all...
+
+              (else #f))))))
+
+;;; Why that final clause? Well, you see: putting a space after the
+;;; comment mark and before text keeps the original code readable.
 ;;;
-;;;     ;;;this would be transformed into source code and not text.
+;;;Unlike this. Can you imagine reading several lines, not to mention a
+;;;whole file, commented like this? Horror.
+;;;
+;;; Some people's editors will strip whitespace at the end of lines when
+;;; saving. That's why a line consisting just of the comment mark is
+;;; treated as a text line.
 ;;;
 ;;; # Turning stuff inside-out
 ;;;
