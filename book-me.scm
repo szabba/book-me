@@ -276,6 +276,50 @@
 
     (string=? a b)))
 
+;;; ## Nice option handlers
+;;;
+;;; The option handler interface is somewhat unwieldy. Since all option
+;;; handlers are going to do similiar stuff we're gonna abstract some of
+;;; it away.
+
+(define (make-option-handler option-names handler-proc)
+
+;;; All options need names.
+
+  (when (null? option-names)
+    (error "At least one option name must be specified!"))
+
+;;; The first name specified is "cannonical" and gets special treatment.
+
+  (let ((cannonical-name (car option-names)))
+
+    (lambda (options arguments)
+
+;;; When the first argument is one of the option's names, we feed the
+;;; rest to the handler procedure. It produces a pair containing the new
+;;; value of the option and the arguments it didn't consume.
+
+      (cond ((member (car arguments)
+                     option-names
+                     option-name=?)
+
+             (let ((value-and-args (handler-proc (cdr arguments))))
+
+;;; Then we cons together the new options and arguments.
+
+               (let ((value (car value-and-args))
+                     (arguments (cdr value-and-args)))
+
+                 (cons (cons (cons cannonical-name
+                                   value)
+                             options)
+                       arguments))))
+
+;;; When the name is NOT one of the option's names, the option handler
+;;; returns false, just as `build-option-parser` expects.
+
+            (else #f)))))
+
 ;;; # Program body
 ;;;
 ;;; Temporarily hard-coded call to inside-out. The "`;;;`" comment mark
