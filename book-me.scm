@@ -72,29 +72,29 @@
 
     (if (< line-length prefix-length)
         #f
-      (let ((beginning (substring line 0 prefix-length))
-            (rest (substring line prefix-length line-length))
-            (rest-length (- line-length
-                            prefix-length)))
+        (let ((beginning (substring line 0 prefix-length))
+              (rest (substring line prefix-length line-length))
+              (rest-length (- line-length
+                              prefix-length)))
 
-        (cond ((not (string=? prefix beginning))
-               #f)
+          (cond ((not (string=? prefix beginning))
+                 #f)
 
 ;;; When the string is just the prefix, return an empty string.
 
-              ((= (- line-length prefix-length) 0)
-               empty-line)
+                ((= (- line-length prefix-length) 0)
+                 empty-line)
 
 ;;; When the rest of the string starts with a space, return the part
 ;;; that follows it.
 
-              ((char=? (string-ref rest 0) #\space)
+                ((char=? (string-ref rest 0) #\space)
 
-               (substring rest 1 rest-length))
+                 (substring rest 1 rest-length))
 
 ;;; Otherwise consider the line to be code after all...
 
-              (else #f))))))
+                (else #f))))))
 
 ;;; Why that final clause? Well, you see: putting a space after the
 ;;; comment mark and before text keeps the original code readable.
@@ -213,9 +213,9 @@
                      (arguments (cdr opts-and-args)))
 
                  (loop (car option-handlers)
-                   (cdr option-handlers)
-                   options
-                   arguments))))
+                       (cdr option-handlers)
+                       options
+                       arguments))))
 
 ;;; Something is clearly wrong if the argument list is not empty and
 ;;; none of the handlers shows interest it's content.
@@ -230,9 +230,9 @@
 
             (else
              (loop (car other-handlers)
-               (cdr other-handlers)
-               options
-               arguments))))))
+                   (cdr other-handlers)
+                   options
+                   arguments))))))
 
 
 ;;; # Nice option handlers
