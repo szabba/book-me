@@ -37,6 +37,8 @@
             (yield line)
             (loop (read-line))))))))
 
+;;; ## The core transform
+
 ;;; `empty-line` and `code-indent` are just convenient names for certain
 ;;; constants.
 
@@ -53,3 +55,54 @@
     (if (< str-len prefix-len)
          #f
          (string=? prefix (string-copy str 0 prefix-len)))))
+
+;;; ## Line handlers
+;;;
+;;; Line handlers are procedures we use to transform an input line to an
+;;; output line. They take a symbol identifying the previous line's type
+;;; and the current one and return the transformed line (or false if it
+;;; doesn't fit the line type handled by the handler) and the handler
+;;; type tag.
+;;;
+;;; The procedures defined below (namely `text-line` and `code-line`)
+;;; return line handlers.  In them we use `or` as a rough `cond`
+;;; equivalent. It defaults to returning `#f` when all the other cases
+;;; fail, so we don't have to write a `(else #f)` clause.
+;;;
+;;; Text lines are either equal to a marker, prefixed by it and at least
+;;; one space or empty lines following another text line. The "prefixed
+;;; with a marker and at least one space" is there so that
+
+;;;This monstrosity isn't treated as text. We don't want people writing
+;;;like this. It's horrible!
+
+(define (text-line marker)
+
+  (let ((prefix (string-append marker " ")))
+    (lambda (last-t line)
+
+      (values (or (and (string=? line empty-line)
+                       (symbol=? 'text-line last-t)
+                       empty-line)
+
+                  (and (string-prefix=? line prefix)
+                       (string-copy line (string-length prefix)))
+
+                  (and (string=? line marker)
+                       empty-line))
+
+              'text-line))))
+
+;;; Code lines are either empty lines following a code line or lines
+;;; that are not text lines.
+
+(define (code-line)
+  (lambda (last-t line)
+
+    (values (or (and (string=? line empty-line)
+                     (symbol=? 'code-line last-t)
+                     code-indent)
+
+                (string-append code-indent line))
+
+            'code-line)))
