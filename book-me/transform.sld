@@ -15,7 +15,7 @@
 
 (define-library (book-me transform)
 
-  (export input-lines)
+  (export input-lines inside-out)
 
   (import (scheme base)
           (scheme write)

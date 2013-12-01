@@ -106,3 +106,35 @@
                 (string-append code-indent line))
 
             'code-line)))
+
+;;; ## Core procedure
+;;;
+;;; `inside-out` is really just a piece of plumbing that tries different
+;;; line handlers in order, on each line.
+;;;
+;;; Given a marker it returns a procedure that takes a line generator
+;;; and returns another one.
+
+(define (inside-out marker)
+  (lambda (lines)
+    (let ((last-was 'text-line))
+
+      (generator-map
+       (lambda (line)
+
+         (let loop ((ts (list (text-line marker)
+                              (code-line))))
+
+           (when (null? ts)
+             (error "inside-out: Line matches no type." line))
+
+           (let-values (((new-line this-is)
+                         ((car ts) last-was line)))
+
+             (if new-line
+                 (begin
+                  (set! last-was this-is)
+                  new-line)
+
+                 (loop (cdr ts))))))
+       lines))))
