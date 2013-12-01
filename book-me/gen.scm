@@ -156,3 +156,62 @@
 ;;; >
 ;;; > In the future, a requirement for `has-next?` to be idempotent
 ;;; > between calls to `next` might be introduced.
+
+;;; ## Higher order generator operations
+;;;
+;;; Procedures to map, iterate over and filter generators are provided.
+;;;
+;;; `generator-map` takes a procedure and a generator, and returns
+;;; another generator, yielding all the values of `g` transformed using
+;;; `f`.
+
+(define (generator-map f g)
+  (generator
+    (lambda (yield)
+
+      (let loop ()
+        (when (has-next? g)
+
+          (yield (f (next g)))
+          (loop))))))
+
+;;; `generator-for-each` takes a procedure and a generator, and applies
+;;; `f` to all the values yielded by `g`.
+
+(define (generator-for-each f g)
+
+  (let loop ()
+    (when (has-next? g)
+
+      (f (next g))
+      (loop))))
+
+;;; `generator-filter` takes a predicate `p` and generator `g`, and
+;;; returns a generator yielding the elements of `g` for which `p` is
+;;; true.
+
+(define (generator-filter p g)
+  (generator
+    (lambda (yield)
+
+      (let loop ()
+        (when (has-next? g)
+
+          (let ((v (next g)))
+
+            (when (p v)
+              (yield v)))
+
+          (loop))))))
+
+;;; `generator-append` takes an arbitrary number of generators and
+;;; returns a generator that will yield all their values in order.
+
+(define (generator-append . gs)
+  (generator
+    (lambda (yield)
+
+      (for-each
+        (lambda (g)
+          (generator-for-each yield g))
+        gs))))

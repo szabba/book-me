@@ -15,7 +15,9 @@
 
 (define-library (book-me gen)
 
-  (export generator has-next? next)
+  (export generator has-next? next
+          generator-map generator-for-each generator-filter
+          generator-append)
 
   (import (scheme base))
 
