@@ -36,3 +36,9 @@
 
             (yield line)
             (loop (read-line))))))))
+
+;;; `empty-line` and `code-indent` are just convenient names for certain
+;;; constants.
+
+(define empty-line "")
+(define code-indent "    ")
