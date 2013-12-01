@@ -42,3 +42,14 @@
 
 (define empty-line "")
 (define code-indent "    ")
+
+;;; We need a function to tell whether a string starts with the given
+;;; prefix.
+
+(define (string-prefix=? str prefix)
+  (let ((str-len (string-length str))
+        (prefix-len (string-length prefix)))
+
+    (if (< str-len prefix-len)
+         #f
+         (string=? prefix (string-copy str 0 prefix-len)))))
