@@ -1,3 +1,10 @@
+;;; # `(book-me transform)`
+;;;
+;;; The module implements generators and generator building procedures
+;;; that are at the core of book-me's functionality.
+
+;;; ## License
+
 ;;; This file is part of book-me.
 
 ;;; book-me is free software: you can redistribute it and/or modify it
@@ -12,11 +19,6 @@
 
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with book-me.  If not, see <http://www.gnu.org/licenses/>.
-
-;;; # `(book-me transform)`
-;;;
-;;; The module implements generators and generator building procedures
-;;; that are at the core of book-me's functionality.
 
 ;;; ## Input generator
 ;;;
